@@ -341,3 +341,4 @@ healthchecksdb
 
 #docker-compose files
 docker*.yml
+*.dcproj
