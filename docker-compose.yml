@@ -1,8 +1,0 @@
-version: '3.4'
-
-services:
-  nightsheepapi:
-    image: ${DOCKER_REGISTRY-}nightsheepapi
-    build:
-      context: .
-      dockerfile: NightSheepAPI/Dockerfile  
