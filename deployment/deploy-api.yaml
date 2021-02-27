@@ -1,0 +1,35 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: night-sheep
+spec:
+  type: LoadBalancer
+  selector:
+    app: night-sheep
+  ports:
+    - name: http
+      protocol: TCP
+      port: ${NIGHT_SHEEP_API_PORT}
+      targetPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: night-sheep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: night-sheep
+  template:
+    metadata:
+      labels:
+        app: night-sheep
+    spec:
+      containers:
+      - name: nginx
+        image: edwardzieminski/nightsheepapi
+        ports:
+        - containerPort: 80
+          protocol: TCP
