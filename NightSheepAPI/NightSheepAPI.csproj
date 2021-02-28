@@ -10,6 +10,7 @@
     <Version>0.1.0</Version>
     <Authors>Edward Ziemiński</Authors>
     <Company>CodingTree</Company>
+    <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
   </PropertyGroup>
 
   <ItemGroup>
