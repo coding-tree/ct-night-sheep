@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  reverse-proxy:
+    image: traefik:v2.4
+    command: 
+      --api.insecure=true 
+      --providers.docker 
+      --providers.docker.swarmMode=true 
+      --providers.docker.useBindPortIP=true 
+      --providers.docker.exposedByDefault=false 
+      --providers.docker.network=traefik-for-nightsheepapi_default 
+      --entryPoints.http-entry-point.address=:80
+      --entryPoints.https-entry-point.address=:443
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager

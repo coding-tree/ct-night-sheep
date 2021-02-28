@@ -1,0 +1,32 @@
+version: '3.4'
+
+services:
+  nightsheepapi:
+    image: edwardzieminski/nightsheepapi:latest
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5002
+    ports:
+      - 5002:5002
+    networks:
+      - traefik
+    deploy:
+      labels:
+        # request Traefik to load this service
+        - "traefik.enable=true"
+        # docker network
+        - "traefik.docker.network=traefik-for-nightsheepapi_default"
+        # load balancer
+        - "traefik.http.services.nightsheepapi-dev.loadbalancer.server.port=5002"
+        - "traefik.http.services.nightsheepapi-dev.loadbalancer.server.scheme=http"
+        # custom response headers
+        - "traefik.http.middlewares.secure-headers.headers.customresponseheaders.server=Traefik-for-NightSheepAPI"
+        # router for HTTP
+        - "traefik.http.routers.nightsheepapi-dev-http.rule=Host(`nightsheepapi-dev.localhost`)"
+        - "traefik.http.routers.nightsheepapi-dev-http.entrypoints=http-entry-point"
+        - "traefik.http.routers.nightsheepapi-dev-http.service=nightsheepapi-dev"
+        - "traefik.http.routers.nightsheepapi-dev-http.middlewares=secure-headers"
+networks:
+  traefik:
+    external:
+      name: traefik-for-nightsheepapi_default
