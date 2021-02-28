@@ -7,9 +7,8 @@ services:
       --api.insecure=true 
       --providers.docker 
       --providers.docker.swarmMode=true 
-      --providers.docker.useBindPortIP=true 
       --providers.docker.exposedByDefault=false 
-      --providers.docker.network=traefik-for-nightsheepapi_default 
+      --providers.docker.network=traefik_default 
       --entryPoints.http-entry-point.address=:80
       --entryPoints.https-entry-point.address=:443
     ports:
