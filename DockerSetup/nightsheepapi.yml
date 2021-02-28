@@ -1,0 +1,30 @@
+version: '3.4'
+
+services:
+  nightsheepapi:
+    image: edwardzieminski/nightsheepapi:${API_VERSION:-latest}
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${API_ENVIRONMENT:-Production}
+      - ASPNETCORE_URLS=http://+:5000
+    networks:
+      - traefik
+    deploy:
+      labels:
+        # request Traefik to load this service
+        - "traefik.enable=true"
+        # docker network
+        - "traefik.docker.network=${TRAEFIK_NETWORK:-traefik_default}"
+        # load balancer
+        - "traefik.http.services.${TRAEFIK_SERVICE:?}.loadbalancer.server.port=5000"
+        - "traefik.http.services.${TRAEFIK_SERVICE:?}.loadbalancer.server.scheme=http"
+        # custom response headers
+        - "traefik.http.middlewares.${TRAEFIK_SERVICE:?}.headers.customresponseheaders.server=${TRAEFIK_MIDDLEWARE_RESPONSE_HEADER_SERVER:-nightsheep-server}"
+        # router for HTTP
+        - "traefik.http.routers.${TRAEFIK_ROUTER_HTTP:?}.rule=Host(`${TRAEFIK_ROUTER_HTTP_RULE_HOST:?}`)"
+        - "traefik.http.routers.${TRAEFIK_ROUTER_HTTP:?}.entrypoints=${TRAEFIK_ENTRYPOINT_HTTP:?}"
+        - "traefik.http.routers.${TRAEFIK_ROUTER_HTTP:?}.service=${TRAEFIK_SERVICE:?}"
+        - "traefik.http.routers.${TRAEFIK_ROUTER_HTTP:?}.middlewares=${TRAEFIK_SERVICE:?}"
+networks:
+  traefik:
+    external:
+      name: ${TRAEFIK_NETWORK:-traefik_default}

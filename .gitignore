@@ -343,5 +343,8 @@ healthchecksdb
 docker*.yml
 *.dcproj
 
+#vscode
+.vscode/
+
 #logs files
 *.log
