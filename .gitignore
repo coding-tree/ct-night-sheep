@@ -345,3 +345,6 @@ docker*.yml
 
 #vscode
 .vscode/
+
+#logs files
+*.log
