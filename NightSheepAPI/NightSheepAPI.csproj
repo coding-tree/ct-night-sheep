@@ -7,7 +7,7 @@
     <Configurations>Debug;Release</Configurations>
     <SignAssembly>false</SignAssembly>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
-    <Version>0.1.0</Version>
+    <Version>0.1.1</Version>
     <Authors>Edward Ziemiński</Authors>
     <Company>CodingTree</Company>
     <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
